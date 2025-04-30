@@ -8,6 +8,10 @@ from sklearn.preprocessing import LabelEncoder
 
 #add funtion
 
+# Add global variables df & model
+df = None
+model = None
+
 
 # Please add funtion comment
 def load_dataset():
