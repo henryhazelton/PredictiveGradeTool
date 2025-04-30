@@ -15,6 +15,7 @@ model = None
 
 # Please add funtion comment
 def load_dataset():
+    global df
     file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv"), ("Excel files", "*.xlsx;*.xls")])
     if file_path:
         try:
@@ -30,6 +31,7 @@ def load_dataset():
 
 # Please add funtion comment
 def train_model(df, features, target):
+    global model
     try:
         X = df[features]
         y = df[target]
