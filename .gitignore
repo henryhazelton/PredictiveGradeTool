@@ -1,6 +1,8 @@
 venv/
 __pycache__/
 *.pyc.venv/
-
-student_habits_performance_part_1_with_errors-1.csv                                                  student_habits_performance_part_2_with_errors-1.csv                                            student_habits_performance_part_3_with_errors-1.csv
-student_habits_performance_part_4_with_errors-1.csv                               student_habits_performance_part_5_with_errors-1.csv
+student_habits_performance_part_1_with_errors-1.csv
+student_habits_performance_part_2_with_errors-1.csv
+student_habits_performance_part_3_with_errors-1.csv
+student_habits_performance_part_4_with_errors-1.csv
+student_habits_performance_part_5_with_errors-1.csv
