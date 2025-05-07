@@ -9,8 +9,8 @@ from sklearn.preprocessing import LabelEncoder
 #add funtion
 
 # Add global variables df & model
-df = None
-model = None
+df = pd.DataFrame()
+model = RandomForestClassifier
 
 
 # Please add funtion comment
