@@ -1,9 +1,6 @@
 # Ignore all CSV Files, txt files, & .DS_Store
 
-*.CSV
-
+*.csv
 *.txt
-
+*.docx
 .DS_Store
-
-.docx
