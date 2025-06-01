@@ -10,9 +10,14 @@ from sklearn.preprocessing import LabelEncoder
 model = RandomForestClassifier()
 dataframe = pd.DataFrame()
 
+# Preprocessing Function 
+def process_data():
+    pass
+
 
 # Please add funtion comment
 def load_dataset():
+    global dataframe
     file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv"), ("Excel files", "*.xlsx;*.xls")])
     if file_path:
         try:
@@ -28,6 +33,7 @@ def load_dataset():
 
 # Please add funtion comment
 def train_model(df, features, target):
+    global model
     try:
         X = df[features]
         y = df[target]
@@ -52,7 +58,7 @@ def make_predictions(model, df, features):
     except Exception as e:
         messagebox.showerror("Error", f"Failed to make predictions: {e}")
 
-# Please add funtion comment
+# Set the root for tkinter GUI application
 root = tk.Tk()
 root.title("Student Predictive Grades")
 
