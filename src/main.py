@@ -41,15 +41,10 @@ def process_data(df):
     gender_mode = df['gender'].mode()[0]
     # Fill NaN values in the 'gender' column with the calculated mode
     df['gender'].fillna(gender_mode, inplace=True)
-    # Check if there are any remaining NaNs in the gender column
-    print(df['gender'].isnull().sum())
-    # Print the unique values after mapping to see the result
-    print(df['gender'].unique())
 
     # Study Hours Per Day: replace with mean
     # Replace the non numeric value 'varies'
     df['study_hours_per_day'] = df['study_hours_per_day'].str.strip().str.lower()
-    print(df['study_hours_per_day'].unique())
     df['study_hours_per_day'] = df['study_hours_per_day'].replace('varies', pd.NA)
     df['study_hours_per_day'] = pd.to_numeric(df['study_hours_per_day'], errors='coerce')
     df['study_hours_per_day'].fillna(df['study_hours_per_day'].mean(), inplace=True)
@@ -151,7 +146,6 @@ def load_dataset():
             # call process_data
             df = process_data(df)
             dataframe = df
-            
             messagebox.showinfo("Success", "Dataset loaded successfully *but did you check the script!")
             return df
         except Exception as e:
@@ -197,7 +191,7 @@ root = tk.Tk()
 root.title("Student Predictive Grades")
 
 # Making a button in tkinter to provide functionality to load the dataset in
-load_button = tk.Button(root, text="Load Dataset", command=lambda: load_dataset())
+load_button = tk.Button(root, text="Load Dataset", command=lambda: set_dataframe())
 load_button.pack(pady=10)
 
 # Adds a text box to allow the user to predict a grade on the dataset features provided
@@ -211,11 +205,11 @@ target_entry = tk.Entry(root)
 target_entry.pack(pady=5)
 
 # Adds a button to the tkinter app to allow for the execution of model training via a GUI
-train_button = tk.Button(root, text="Train Model", command=lambda: train_model(df, features_entry.get().split(','), target_entry.get()))
+train_button = tk.Button(root, text="Train Model", command=lambda: train_model(dataframe, features_entry.get().split(','), target_entry.get()))
 train_button.pack(pady=10)
 
 # Adds a button to the tkinter app to allow for the prediction of a grade via a GUI
-predict_button = tk.Button(root, text="Make Predictions", command=lambda: make_predictions(model, df, features_entry.get().split(',')))
+predict_button = tk.Button(root, text="Make Predictions", command=lambda: make_predictions(model, dataframe, features_entry.get().split(',')))
 predict_button.pack(pady=10)
 
 # Provides the result of the prediction 
