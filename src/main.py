@@ -21,7 +21,7 @@ def process_data(df):
 
     # Fill Age with median value
     # However, first need to replace 'unknown' in the data with NaN (Pandas recognises as not a number)
-    df['age'].replace('unknown', pd.NA)
+    df['age'] = df['age'].replace('unknown', pd.NA)
     # Calculate median age and fill the unknown values (fill with median to account for outliers)
     # Ensure the column is numberic before calculating the median values
     df['age'] = pd.to_numeric(df['age'], errors='coerce')
@@ -47,12 +47,10 @@ def process_data(df):
     print(df['gender'].unique())
 
     # Study Hours Per Day: replace with mean
-    # Check for missing values first
-    print(df['study_hours_per_day'].unique())
     # Replace the non numeric value 'varies'
     df['study_hours_per_day'] = df['study_hours_per_day'].str.strip().str.lower()
     print(df['study_hours_per_day'].unique())
-    df['study_hours_per_day'].replace('varies', pd.NA)
+    df['study_hours_per_day'] = df['study_hours_per_day'].replace('varies', pd.NA)
     df['study_hours_per_day'] = pd.to_numeric(df['study_hours_per_day'], errors='coerce')
     df['study_hours_per_day'].fillna(df['study_hours_per_day'].mean(), inplace=True)
     
@@ -100,7 +98,6 @@ def process_data(df):
     # Parental Education: replace with mode
     # Map the data to encode - {High School: 0, Bachelor: 1, Masters: 2}
     df['parental_education_level'] = df['parental_education_level'].str.strip().str.lower()
-    print(df['parental_education_level'].unique())
     # Map
     parental_education_level_mapping = {'high school': 0, 'bachelor': 1, 'masters': 2}
     df['parental_education_level'] = df['parental_education_level'].map(parental_education_level_mapping)
@@ -125,7 +122,6 @@ def process_data(df):
     # Extracurricular Participation: replace with mode
     # map data - {no: 0, yes: 1}
     df['extracurricular_participation'] = df['extracurricular_participation'].str.strip().str.lower()
-    print(df['extracurricular_participation'].unique())
     # Map
     extracurricular_participation_mapping = {'no': 0, 'yes': 1}
     df['extracurricular_participation'] = df['extracurricular_participation'].map(extracurricular_participation_mapping)
@@ -136,6 +132,9 @@ def process_data(df):
     # Exam Score: replace with median to account for outliers
     df['exam_score'] = pd.to_numeric(df['exam_score'], errors='coerce')
     df['exam_score'].fillna(df['exam_score'].median(), inplace=True)
+
+    # Return the modified dataset
+    return df
 
 
 
@@ -149,11 +148,22 @@ def load_dataset():
                 df = pd.read_csv(file_path)
             else:
                 df = pd.read_excel(file_path, engine='openpyxl')
+            # call process_data
+            df = process_data(df)
+            dataframe = df
+            
             messagebox.showinfo("Success", "Dataset loaded successfully *but did you check the script!")
             return df
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load dataset: {e}")
     return None
+
+# New function needed to reliably set the dataframe 
+def set_dataframe():
+    global dataframe
+    df = load_dataset()
+    if df is not None:
+        dataframe = df
 
 # Trains the model using sklearn 
 def train_model(df, features, target):
