@@ -3,7 +3,9 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import r2_score
 from sklearn.preprocessing import LabelEncoder
 
 #add funtion
@@ -146,7 +148,7 @@ def load_dataset():
             # call process_data
             df = process_data(df)
             dataframe = df
-            messagebox.showinfo("Success", "Dataset loaded successfully *but did you check the script!")
+            messagebox.showinfo("Success", "Dataset loaded successfully!")
             return df
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load dataset: {e}")
@@ -166,11 +168,11 @@ def train_model(df, features, target):
         X = df[features]
         y = df[target]
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        model = RandomForestClassifier()
+        model = RandomForestRegressor()
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        accuracy = accuracy_score(y_test, y_pred)
-        messagebox.showinfo("Model Trained", f"Model trained successfully! Accuracy: {accuracy:.2f}")
+        r2 = r2_score(y_test, y_pred)
+        messagebox.showinfo("Model Trained", f"Model trained successfully! R2 Score: {r2:.2f}")
         return model
     except Exception as e:
         messagebox.showerror("Error", f"Failed to train model: {e}")
